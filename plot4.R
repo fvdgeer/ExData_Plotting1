@@ -27,11 +27,25 @@ powerdata<-read_csv2(dataFile, na="?", col_names=TRUE, col_types = list(
 powerdata %>% 
     filter(year(Date)==2007 & month(Date)==2 & day(Date) %in% c(1,2)) %>%
     mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
-    select(Timestamp, starts_with("Sub_metering")) -> plot3data
+    select (3:10) -> powerdata
 
-par(mfcol=c(1,1))
-with(plot3data, plot(Timestamp, Sub_metering_1, type="l", xlab="", ylab="Energy sub metering"))
-with(plot3data, lines(Timestamp, Sub_metering_2, type="l", col="red"))
-with(plot3data, lines(Timestamp, Sub_metering_3, type="l", col="blue"))
-legend("topright", col=c("black", "red", "blue"), lty=c(1,1,1), legend=names(plot3data)[2:4])
-dev.off(dev.copy(png, "plot3.png"))
+# 2x2 plot area; fill cols first
+par(mfcol=c(2,2))
+
+# Plot in row1, col1
+with(powerdata, plot(Timestamp, Global_active_power, type="l", xlab="", ylab="Global Active Power"))
+
+# Plot in row2, col1
+with(powerdata, plot(Timestamp, Sub_metering_1, type="l", xlab="", ylab="Energy sub metering"))
+with(powerdata, lines(Timestamp, Sub_metering_2, type="l", col="red"))
+with(powerdata, lines(Timestamp, Sub_metering_3, type="l", col="blue"))
+legend("topright", col=c("black", "red", "blue"), lty=c(1,1,1), legend=c("Sub_metering_1", "Sub_metering_2", "Sub_Metering_3"), bty="n")
+
+# Plot in row1, col2
+with(powerdata, plot(Timestamp, Voltage, type="l", xlab="datetime"))
+
+# Plot in row2, col2
+with(powerdata, plot(Timestamp, Global_reactive_power, type="l", xlab="datetime"))
+
+# Save the plot
+dev.off(dev.copy(png, "plot4.png"))

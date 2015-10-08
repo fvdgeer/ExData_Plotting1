@@ -29,5 +29,6 @@ powerdata %>%
     mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
     select(Timestamp, Global_active_power) -> plot2data
 
+par(mfcol=c(1,1))
 with(plot2data, plot(Timestamp, Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)"))
 dev.off(dev.copy(png, "plot2.png"))
