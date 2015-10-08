@@ -1,4 +1,5 @@
-# Project1 for 
+# Course Project1 -- Exploratory Data Analysis
+# By fvdgeer
 library(readr)
 library(dplyr)
 library(lubridate)
@@ -23,4 +24,10 @@ powerdata<-read_csv2(dataFile, na="?", col_names=TRUE, col_types = list(
     Sub_metering_2=col_double(),
     Sub_metering_3=col_double() ))
 
-powerdata<-filter(powerdata, year(Date)==2007 & month(Date)==2 & day(Date) %in% c(1,2))
+powerdata %>% 
+    filter(year(Date)==2007 & month(Date)==2 & day(Date) %in% c(1,2)) %>%
+    mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
+    select(Timestamp, Global_active_power) -> plot2data
+
+with(plot2data, plot(Timestamp, Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)"))
+dev.off(dev.copy(png, "plot2.png"))

@@ -27,8 +27,8 @@ powerdata<-read_csv2(dataFile, na="?", col_names=TRUE, col_types = list(
 powerdata %>% 
     filter(year(Date)==2007 & month(Date)==2 & day(Date) %in% c(1,2)) %>%
     mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
-    select(Timestamp, Global_active_power) -> plot2data
+    select(Timestamp, Global_active_power) -> plot1data
 
-with(plot2data, plot(Timestamp, Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)"))
-dev.off(dev.copy(png, "plot2.png"))
+hist(plot1data$Global_active_power, breaks=15, xlab="Global Active Power (kilowatts)", col="red", main="Global Active Power")
+dev.off(dev.copy(png, "plot1.png"))
 
