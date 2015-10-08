@@ -29,9 +29,11 @@ powerdata %>%
     mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
     select(Timestamp, starts_with("Sub_metering")) -> plot3data
 
+# Create the plot on a png device
+png(width=480, height=480, filename="plot3.png")
 par(mfcol=c(1,1))
 with(plot3data, plot(Timestamp, Sub_metering_1, type="l", xlab="", ylab="Energy sub metering"))
 with(plot3data, lines(Timestamp, Sub_metering_2, type="l", col="red"))
 with(plot3data, lines(Timestamp, Sub_metering_3, type="l", col="blue"))
 legend("topright", col=c("black", "red", "blue"), lty=c(1,1,1), legend=names(plot3data)[2:4])
-dev.off(dev.copy(png, "plot3.png"))
+dev.off(dev.list()[["png"]])

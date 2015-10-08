@@ -29,6 +29,9 @@ powerdata %>%
     mutate(Timestamp=as.POSIXct(paste(Date, Time))) %>%
     select(Timestamp, Global_active_power) -> plot2data
 
+# Create the plot on a png device
+png(width=480, height=480, filename="plot2.png")
 par(mfcol=c(1,1))
 with(plot2data, plot(Timestamp, Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)"))
-dev.off(dev.copy(png, "plot2.png"))
+dev.off(dev.list()[["png"]])
+

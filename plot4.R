@@ -30,6 +30,7 @@ powerdata %>%
     select (3:10) -> powerdata
 
 # 2x2 plot area; fill cols first
+png(width=480, height=480, filename="plot4.png")
 par(mfcol=c(2,2))
 
 # Plot in row1, col1
@@ -48,4 +49,4 @@ with(powerdata, plot(Timestamp, Voltage, type="l", xlab="datetime"))
 with(powerdata, plot(Timestamp, Global_reactive_power, type="l", xlab="datetime"))
 
 # Save the plot
-dev.off(dev.copy(png, "plot4.png"))
+dev.off(dev.list()[["png"]])
